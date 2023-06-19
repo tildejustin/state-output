@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "id": "state-output-common",
+  "version": "${version}",
+  "name": "State Output Common",
+  "description": "Common library for State Output",
+  "authors": [
+    "DuncanRuns"
+  ],
+  "contributors": [
+    "jojoe"
+  ],
+  "license": "MIT",
+  "environment": "*",
+  "depends": {
+    "fabricloader": ">=0.12.12",
+    "minecraft": "*"
+  },
+  "breaks": {
+    "worldpreview": "*"
+  }
+}
