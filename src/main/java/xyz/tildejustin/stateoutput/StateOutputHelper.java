@@ -19,26 +19,31 @@ import java.util.concurrent.Executors;
 public final class StateOutputHelper {
     private static final Path OUT_PATH = Paths.get("wpstateout.txt");
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
+    public static int loadingProgress = 0;
     public static boolean titleHasEverLoaded = false;
-    private static String lastOutput = "";
+    private static State lastOutput = State.UNKNOWN;
 
     private static RandomAccessFile stateFile;
 
-    public static void outputState(String string) {
+    public static void outputState(State state) {
         // Prevent "generating,0" from appearing on game start
         if (!titleHasEverLoaded) {
-            if (string.equals("title")) titleHasEverLoaded = true;
+            if (state.equals(State.TITLE)) titleHasEverLoaded = true;
             else return;
         }
 
         // Check for changes
-        if (lastOutput.equals(string)) {
+        if (!state.progress && lastOutput.equals(state)) {
             return;
         }
-        lastOutput = string;
+        lastOutput = state;
 
         // Queue up the file writes as to not interrupt mc itself
-        EXECUTOR.execute(() -> outputStateInternal(string));
+        EXECUTOR.execute(() -> outputStateInternal(state.toString()));
+    }
+
+    public static void outputLastState() {
+        EXECUTOR.execute(() -> outputStateInternal(lastOutput.toString()));
     }
 
     private static void outputStateInternal(String string) {

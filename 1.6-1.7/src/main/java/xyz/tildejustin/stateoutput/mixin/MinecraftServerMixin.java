@@ -8,14 +8,10 @@ import xyz.tildejustin.stateoutput.StateOutputHelper;
 
 @Mixin(MinecraftServer.class)
 public abstract class MinecraftServerMixin {
-    @ModifyArg(method = "prepareWorlds",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/server/MinecraftServer;logProgress(Ljava/lang/String;I)V"),
-            index = 1
-    )
-    private int stateoutput$outputGenerationState(int worldProgress) {
-        StateOutputHelper.outputState("generating," + worldProgress);
+    @ModifyArg(method = "prepareWorlds", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;logProgress(Ljava/lang/String;I)V"), index = 1)
+    private int outputGenerationState(int worldProgress) {
+        StateOutputHelper.loadingProgress = worldProgress;
+        StateOutputHelper.outputLastState();
         return worldProgress;
     }
 }

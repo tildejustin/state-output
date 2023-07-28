@@ -1,7 +1,7 @@
 plugins {
     id 'fabric-loom' version '1.3-SNAPSHOT' apply false
     id 'legacy-looming' version '1.3-SNAPSHOT' apply false
-    id 'io.github.juuxel.loom-quiltflower' version '1.10.0' apply false
+    id 'io.github.juuxel.loom-vineflower' version '1.11.0' apply false
     id 'java-library'
 }
 
@@ -21,8 +21,7 @@ class Version {
         if (versions.length == 2) {
             int last_version = Integer.parseInt(versions[1].split("\\.")[1]) + 1
             return ">=${versions[0]} <1.${last_version}"
-        }
-        else return "~" + name
+        } else return "~" + name
     }
 
     public static final Version[] VERSIONS = [
@@ -65,7 +64,7 @@ processResources {
 
 subprojects {
     apply plugin: 'fabric-loom'
-    apply plugin: 'io.github.juuxel.loom-quiltflower'
+    apply plugin: 'io.github.juuxel.loom-vineflower'
     def project_info = Version.getVersion(project.name)
     if (project_info == null) {
         System.out.println("project name: " + project.name + ", could not find version")

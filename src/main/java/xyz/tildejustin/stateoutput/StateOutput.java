@@ -7,5 +7,4 @@ public class StateOutput {
     public static void log(String message) {
         LEGACY_LOGGER.info(message);
     }
-
 }
