@@ -24,15 +24,14 @@ class Version {
         } else return "~" + name
     }
 
-    public static final Version[] VERSIONS = [
-            new Version("1.3.2", "1.3.2+build.481", "1.3-1.5"),
-            new Version("1.6.4", "1.6.4+build.481", "1.6-1.7"),
-            new Version("1.8.9", "1.8.9+build.481", "1.8-1.12"),
-            new Version("1.13.2", "1.13.2+build.481", "1.13"),
-            new Version("1.14.4", "1.14.4+build.18", "1.14-1.15"),
-            new Version("1.16.5", "1.16.5+build.10", "1.16-1.17"),
-            new Version("1.18.2", "1.18.2+build.4", "1.18-1.20")
-    ]
+    public static final Version[] VERSIONS = [new Version("1.3.2", "1.3.2+build.514", "1.3-1.5"),
+                                              new Version("1.6.4", "1.6.4+build.514", "1.6-1.7"),
+                                              new Version("1.8.9", "1.8.9+build.514", "1.8-1.12"),
+                                              new Version("1.13.2", "1.13.2+build.514", "1.13"),
+                                              new Version("1.14.4", "1.14.4+build.18", "1.14-1.15"),
+                                              new Version("1.16.5", "1.16.5+build.10", "1.16-1.17"),
+                                              new Version("1.18.2", "1.18.2+build.4", "1.18-1.20"),
+                                              new Version("20w14infinite", "20w14infinite+build.4", "20w14infinite")]
 
     static Version getVersion(String projectName) {
         for (def info in VERSIONS) {
@@ -72,7 +71,12 @@ subprojects {
     }
 
     // apply legacy-looming and use legacy fabric mappings for pre 1.14
-    boolean lf = Integer.parseInt(project_info.getMc().split("\\.")[1]) < 14
+    boolean lf
+    if (project_info.getMc() == "20w14infinite") {
+        lf = false
+    } else {
+        lf = Integer.parseInt(project_info.getMc().split("\\.")[1]) < 14
+    }
     if (lf) apply plugin: 'legacy-looming'
 
     archivesBaseName = archives_base_name
