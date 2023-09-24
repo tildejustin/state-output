@@ -2,6 +2,7 @@ package xyz.tildejustin.stateoutput;
 
 import org.apache.logging.log4j.Level;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.charset.StandardCharsets;
@@ -19,11 +20,18 @@ import java.util.concurrent.Executors;
 public final class StateOutputHelper {
     private static final Path OUT_PATH = Paths.get("wpstateout.txt");
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
+    private static final RandomAccessFile stateFile;
     public static int loadingProgress = 0;
     public static boolean titleHasEverLoaded = false;
     private static State lastOutput = State.UNKNOWN;
 
-    private static RandomAccessFile stateFile;
+    static {
+        try {
+            stateFile = new RandomAccessFile(OUT_PATH.toString(), "rw");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void outputState(State state) {
         // Prevent "generating,0" from appearing on game start
@@ -48,9 +56,6 @@ public final class StateOutputHelper {
 
     private static void outputStateInternal(String string) {
         try {
-            if (stateFile == null) { // opening file only once is better for performance
-                stateFile = new RandomAccessFile(OUT_PATH.toString(), "rw");
-            }
             stateFile.setLength(0); // clear existing file contents
             stateFile.seek(0); // move pointer back to start of file
             stateFile.write(string.getBytes(StandardCharsets.UTF_8));

@@ -51,7 +51,7 @@ dependencies {
     implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
 }
 
-project.version = "$mod_version+$target_version"
+project.version = mod_version
 
 processResources {
     inputs.property "version", project.version
