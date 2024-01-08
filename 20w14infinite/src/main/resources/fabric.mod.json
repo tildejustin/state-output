@@ -6,10 +6,8 @@
   "description": "World Preview state file functionality but without World Preview",
   "authors": [
     "DuncanRuns",
+    "jojoe",
     "tildejustin"
-  ],
-  "contributors": [
-    "jojoe"
   ],
   "license": "MIT",
   "environment": "*",

@@ -1,0 +1,47 @@
+plugins {
+    id "fabric-loom"
+}
+
+var target_version = project.path.replace(":", "")
+version = "$mod_version+$target_version"
+group = maven_group
+
+base {
+    archivesName = archives_name
+}
+
+repositories {
+    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots" }
+    maven { url "https://jitpack.io" }
+}
+
+loom {
+    decompilers {
+        vineflower {
+            options.putAll(["mark-corresponding-synthetics": "1", "ind": "    "])
+        }
+    }
+}
+
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:$loader_version"
+}
+
+processResources {
+    filesMatching("fabric.mod.json") {
+        expand "version": version, "target_version": target_version
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = "UTF-8"
+    if (JavaVersion.current().isJava9Compatible()) it.options.release.set(8)
+}
+
+java {
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+jar {
+    from "license"
+}

@@ -1,98 +1,14 @@
 plugins {
-    id 'fabric-loom' version '1.3-SNAPSHOT' apply false
-    id 'legacy-looming' version '1.3-SNAPSHOT' apply false
-    id 'io.github.juuxel.loom-vineflower' version '1.11.0' apply false
-    id 'java-library'
+    id "loom"
 }
 
-class Version {
-    String mc, yarn, project, target
-
-    Version(String mc, String yarn, String project) {
-        this.mc = mc
-        this.yarn = yarn
-        this.project = project
-        this.target = get_compat_string(project)
-    }
-
-    static get_compat_string(String name) {
-        String[] versions = name.split("-")
-        assert versions.length == 2 || versions.length == 1
-        if (versions.length == 2) {
-            int last_version = Integer.parseInt(versions[1].split("\\.")[1]) + 1
-            return ">=${versions[0]} <1.${last_version}"
-        } else return "~" + name
-    }
-
-    public static final Version[] VERSIONS = [new Version("1.3.2", "1.3.2+build.514", "1.3-1.5"),
-                                              new Version("1.6.4", "1.6.4+build.514", "1.6-1.7"),
-                                              new Version("1.8.9", "1.8.9+build.514", "1.8-1.12"),
-                                              new Version("1.13.2", "1.13.2+build.514", "1.13"),
-                                              new Version("1.14.4", "1.14.4+build.18", "1.14-1.15"),
-                                              new Version("1.16.5", "1.16.5+build.10", "1.16-1.17"),
-                                              new Version("1.18.2", "1.18.2+build.4", "1.18-1.20"),
-                                              new Version("20w14infinite", "20w14infinite+build.4", "20w14infinite")]
-
-    static Version getVersion(String projectName) {
-        for (def info in VERSIONS) {
-            if (projectName == info.project) {
-                return info
-            }
-        }
-        return null
-    }
-}
-
-repositories {
-    mavenCentral()
-}
+version = "$mod_version-$target_version"
 
 dependencies {
-    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
-}
-
-project.version = mod_version
-
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
-}
-
-subprojects {
-    apply plugin: 'fabric-loom'
-    apply plugin: 'io.github.juuxel.loom-vineflower'
-    def project_info = Version.getVersion(project.name)
-    if (project_info == null) {
-        System.out.println("project name: " + project.name + ", could not find version")
-        return
-    }
-
-    // apply legacy-looming and use legacy fabric mappings for pre 1.14
-    boolean lf
-    if (project_info.getMc() == "20w14infinite") {
-        lf = false
-    } else {
-        lf = Integer.parseInt(project_info.getMc().split("\\.")[1]) < 14
-    }
-    if (lf) apply plugin: 'legacy-looming'
-
-    archivesBaseName = archives_base_name
-    project.minecraft_version = project_info.mc
-    project.version = "$project.mod_version+$project_info.project"
-
-    dependencies {
-        minecraft "com.mojang:minecraft:$project_info.mc"
-        mappings "net.${lf ? "legacyfabric" : "fabricmc"}:yarn:$project_info.yarn:v2"
-        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-        include(api(project(":")))
-    }
-
-    processResources {
-        filesMatching("fabric.mod.json") {
-            expand "version": project.version, "version_target": project_info.target
-        }
-    }
+    minecraft "com.mojang:minecraft:$minecraft_version"
+    mappings "com.github.redlime:yarn:$yarn_mappings:v2"
+    // implementation for single jar
+    // subprojects.forEach {
+    //     include project(path: it.path, configuration: "namedElements")
+    // }
 }

@@ -5,10 +5,9 @@
   "name": "State Output Common",
   "description": "Common library for State Output",
   "authors": [
-    "DuncanRuns"
-  ],
-  "contributors": [
-    "jojoe"
+    "DuncanRuns",
+    "jojoe",
+    "tildejustin"
   ],
   "license": "MIT",
   "environment": "*",

@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.tildejustin.stateoutput.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "LevelStorage$SessionMixin",
+    "MinecraftClientMixin",
+    "TitleScreenMixin",
+    "WorldGenerationProgressLoggerMixin"
+  ],
+  "client": [
+    "LevelLoadingScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
