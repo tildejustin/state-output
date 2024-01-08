@@ -2,7 +2,11 @@ plugins {
     id "loom"
 }
 
-version = "$mod_version-$target_version"
+version = mod_version
+
+base {
+    archivesName = base_archives_name
+}
 
 dependencies {
     minecraft "com.mojang:minecraft:$minecraft_version"
