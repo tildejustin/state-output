@@ -14,5 +14,8 @@
   "depends": {
     "fabricloader": ">=0.12.12",
     "minecraft": "*"
+  },
+  "breaks": {
+    "worldpreview": ">=3.0.0 <5.0.0"
   }
 }
