@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Level;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.util.concurrent.*;
 
 /**
  * A helper class for outputting and logging the current state of resetting to help with macros and verification without interrupting the regular flow of the game.
@@ -15,7 +14,6 @@ import java.util.concurrent.*;
  */
 public final class StateOutputHelper {
     private static final Path OUT_PATH = Paths.get("wpstateout.txt");
-    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
     private static final RandomAccessFile stateFile;
     public static int loadingProgress = 0;
     public static boolean titleHasEverLoaded = false;
@@ -32,8 +30,10 @@ public final class StateOutputHelper {
     public static void outputState(State state) {
         // Prevent "generating,0" from appearing on game start
         if (!titleHasEverLoaded) {
-            if (state.equals(State.TITLE)) titleHasEverLoaded = true;
-            else return;
+            if (!state.equals(State.TITLE)) {
+                return;
+            }
+            titleHasEverLoaded = true;
         }
 
         // Check for changes
@@ -43,11 +43,14 @@ public final class StateOutputHelper {
         lastOutput = state;
 
         // Queue up the file writes as to not interrupt mc itself
-        EXECUTOR.execute(() -> outputStateInternal(state.toString()));
+        outputStateInternal(state.toString());
     }
 
+    /**
+     * outputs the last set state, used during generation such that worldpreview can set the state to previewing, and it will output that for the rest of generation
+     */
     public static void outputLastState() {
-        EXECUTOR.execute(() -> outputStateInternal(lastOutput.toString()));
+        outputStateInternal(lastOutput.toString());
     }
 
     private static void outputStateInternal(String string) {
@@ -56,12 +59,18 @@ public final class StateOutputHelper {
             stateFile.seek(0); // move pointer back to start of file
             stateFile.write(string.getBytes(StandardCharsets.UTF_8));
             String message = "StateOutput State: " + string;
-            if (StateOutput.legacyLog) StateOutput.log(message);
-            else LogHelper.log(Level.INFO, message);
+            if (StateOutput.legacyLog) {
+                StateOutput.log(message);
+            } else {
+                LogHelper.log(Level.INFO, message);
+            }
         } catch (IOException ignored) {
             String error = "Failed to write state output!";
-            if (StateOutput.legacyLog) StateOutput.log(error);
-            else LogHelper.log(Level.ERROR, error);
+            if (StateOutput.legacyLog) {
+                StateOutput.log(error);
+            } else {
+                LogHelper.log(Level.ERROR, error);
+            }
         }
     }
 }

@@ -1,12 +1,10 @@
 package dev.tildejustin.stateoutput.mixin;
 
-import net.minecraft.client.gui.screen.LevelLoadingScreen;
+import dev.tildejustin.stateoutput.*;
+import net.minecraft.client.gui.screen.world.LevelLoadingScreen;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import dev.tildejustin.stateoutput.State;
-import dev.tildejustin.stateoutput.StateOutputHelper;
 
 @Mixin(LevelLoadingScreen.class)
 public abstract class LevelLoadingScreenMixin {

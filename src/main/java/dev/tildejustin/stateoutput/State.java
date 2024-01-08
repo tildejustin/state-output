@@ -29,8 +29,12 @@ public enum State {
 
     @Override
     public String toString() {
-        if (progress) return String.format("%s,%d", this.string, StateOutputHelper.loadingProgress);
-        if (!substring.isEmpty()) return String.format("%s,%s", this.string, this.substring);
-        else return this.string;
+        if (progress) {
+            return String.format("%s,%d", this.string, StateOutputHelper.loadingProgress);
+        } else if (!substring.isEmpty()) {
+            return String.format("%s,%s", this.string, this.substring);
+        } else {
+            return this.string;
+        }
     }
 }
