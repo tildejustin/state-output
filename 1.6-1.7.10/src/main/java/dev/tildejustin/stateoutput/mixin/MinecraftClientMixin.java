@@ -51,7 +51,6 @@ public abstract class MinecraftClientMixin {
         }
     }
 
-    // TODO: test
     @Inject(method = {"Lnet/minecraft/class_1600;method_2935(Ljava/lang/String;Ljava/lang/String;Lnet/minecraft/class_1156;)V", "startIntegratedServer"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/LoadingScreenRenderer;setTitle(Ljava/lang/String;)V", shift = At.Shift.AFTER), require = 1)
     public void outputStartGen(CallbackInfo ci) {
         StateOutputHelper.loadingProgress = 0;
