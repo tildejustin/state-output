@@ -48,7 +48,6 @@ public abstract class MinecraftClientMixin {
 
     @Inject(method = "startIntegratedServer", at = @At(value = "NEW", target = "()Lnet/minecraft/client/gui/screen/ProgressScreen;", shift = At.Shift.AFTER))
     public void outputStartGen(CallbackInfo ci) {
-        StateOutputHelper.loadingProgress = 0;
-        StateOutputHelper.outputState(State.GENERATING);
+        StateOutputHelper.outputState(State.GENERATING.withProgress(0));
     }
 }

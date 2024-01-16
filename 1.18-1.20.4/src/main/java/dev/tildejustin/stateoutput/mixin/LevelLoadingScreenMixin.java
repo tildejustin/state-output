@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LevelLoadingScreenMixin {
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     public void outputStartGen(CallbackInfo ci) {
-        StateOutputHelper.loadingProgress = 0;
-        StateOutputHelper.outputState(State.GENERATING);
+        StateOutputHelper.outputState(State.GENERATING.withProgress(0));
     }
 }
