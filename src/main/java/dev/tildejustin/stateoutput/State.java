@@ -5,11 +5,11 @@ public enum State {
     PAUSED("inworld,paused"),
     INGAME("inworld,unpaused"),
     OPEN_SCREEN("inworld,gamescreenopen"),
-    TITLE("title", false),
-    WAITING("waiting", false),
+    TITLE("title"),
+    WAITING("waiting"),
     @SuppressWarnings("unused")
     PREVIEW("previewing", true),
-    UNKNOWN("", false);
+    UNKNOWN("");
 
     private final boolean usesProgress;
     private int progress = 0;
@@ -22,17 +22,15 @@ public enum State {
     }
 
     State(String string) {
-        this.string = string;
-        this.usesProgress = false;
+        this(string, false);
     }
 
     public State withProgress(int progress) {
-        // This check should be done, but we can assume no one incorrectly uses withProgress and save the if check
-        // if (!this.usesProgress) {
-        //     throw new IllegalStateException("Progress cannot be used with a non-progress state type!");
-        // }
+        assert this.usesProgress;
 
-        if (progress != this.progress) progressChanged = true;
+        if (progress != this.progress) {
+            progressChanged = true;
+        }
         this.progress = progress;
         return this;
     }
