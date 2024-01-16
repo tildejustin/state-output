@@ -4,9 +4,9 @@
   "package": "dev.tildejustin.stateoutput.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "mixin.MinecraftClientMixin",
-    "mixin.MinecraftServerMixin",
-    "mixin.TitleScreenMixin"
+    "MinecraftClientMixin",
+    "MinecraftServerMixin",
+    "TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

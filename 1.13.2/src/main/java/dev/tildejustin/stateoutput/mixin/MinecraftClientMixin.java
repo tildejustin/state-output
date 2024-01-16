@@ -1,4 +1,4 @@
-package dev.tildejustin.stateoutput.mixin.mixin;
+package dev.tildejustin.stateoutput.mixin;
 
 import dev.tildejustin.stateoutput.*;
 import net.minecraft.client.MinecraftClient;
