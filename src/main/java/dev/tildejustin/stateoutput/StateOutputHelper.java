@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Level;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.util.function.UnaryOperator;
 
 /**
  * A helper class for outputting and logging the current state of resetting to help with macros and verification without interrupting the regular flow of the game.
@@ -15,7 +16,6 @@ import java.nio.file.*;
 public final class StateOutputHelper {
     private static final Path OUT_PATH = Paths.get("wpstateout.txt");
     private static final RandomAccessFile stateFile;
-    public static int loadingProgress = 0;
     public static boolean titleHasEverLoaded = false;
     private static State lastOutput = State.UNKNOWN;
 
@@ -37,20 +37,18 @@ public final class StateOutputHelper {
         }
 
         // Check for changes
-        if (!state.progress && lastOutput.equals(state)) {
+        if (lastOutput == state && !state.hasProgressChanged()) {
             return;
         }
+        state.markLatest();
         lastOutput = state;
 
         // Queue up the file writes as to not interrupt mc itself
         outputStateInternal(state.toString());
     }
 
-    /**
-     * outputs the last set state, used during generation such that worldpreview can set the state to previewing, and it will output that for the rest of generation
-     */
-    public static void outputLastState() {
-        outputStateInternal(lastOutput.toString());
+    public static void updateLastState(UnaryOperator<State> stateUpdater) {
+        outputState(stateUpdater.apply(lastOutput));
     }
 
     private static void outputStateInternal(String string) {

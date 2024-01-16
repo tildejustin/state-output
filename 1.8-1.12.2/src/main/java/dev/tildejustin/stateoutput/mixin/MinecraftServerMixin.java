@@ -9,8 +9,7 @@ import org.spongepowered.asm.mixin.injection.*;
 public abstract class MinecraftServerMixin {
     @ModifyArg(method = "prepareWorlds", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;logProgress(Ljava/lang/String;I)V"), index = 1)
     private int outputGenerationState(int worldProgress) {
-        StateOutputHelper.loadingProgress = worldProgress;
-        StateOutputHelper.outputLastState();
+        StateOutputHelper.updateLastState(state -> state.withProgress(worldProgress));
         return worldProgress;
     }
 }

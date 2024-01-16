@@ -2,37 +2,51 @@ package dev.tildejustin.stateoutput;
 
 public enum State {
     GENERATING("generating", true),
-    PAUSED("inworld", "paused"),
-    INGAME("inworld", "unpaused"),
-    OPEN_SCREEN("inworld", "gamescreenopen"),
-    TITLE("title", false),
-    WAITING("waiting", false),
+    PAUSED("inworld,paused"),
+    INGAME("inworld,unpaused"),
+    OPEN_SCREEN("inworld,gamescreenopen"),
+    TITLE("title"),
+    WAITING("waiting"),
     @SuppressWarnings("unused")
     PREVIEW("previewing", true),
-    UNKNOWN("", false);
+    UNKNOWN("");
 
-    public final boolean progress;
-    public final String string;
-    public final String substring;
+    private final boolean usesProgress;
+    private int progress = 0;
+    private boolean progressChanged;
+    private final String string;
 
-    State(String name, boolean progress) {
-        this.string = name;
-        this.progress = progress;
-        this.substring = "";
+    State(String string, boolean usesProgress) {
+        this.string = string;
+        this.usesProgress = usesProgress;
     }
 
-    State(String name, String substring) {
-        this.string = name;
-        this.substring = substring;
-        this.progress = false;
+    State(String string) {
+        this(string, false);
+    }
+
+    public State withProgress(int progress) {
+        assert this.usesProgress;
+
+        if (progress != this.progress) {
+            progressChanged = true;
+        }
+        this.progress = progress;
+        return this;
+    }
+
+    public boolean hasProgressChanged() {
+        return progressChanged;
+    }
+
+    public void markLatest() {
+        this.progressChanged = false;
     }
 
     @Override
     public String toString() {
-        if (progress) {
-            return String.format("%s,%d", this.string, StateOutputHelper.loadingProgress);
-        } else if (!substring.isEmpty()) {
-            return String.format("%s,%s", this.string, this.substring);
+        if (usesProgress) {
+            return String.format("%s,%d", this.string, this.progress);
         } else {
             return this.string;
         }

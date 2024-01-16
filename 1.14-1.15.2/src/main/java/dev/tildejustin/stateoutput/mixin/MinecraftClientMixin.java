@@ -27,7 +27,7 @@ public abstract class MinecraftClientMixin {
 
         // While disconnect is intended for leaving a world, it may also occur before the first world creation,
         // hence the output "waiting" as opposed to "exiting"
-        StateOutputHelper.outputState(State.TITLE);
+        StateOutputHelper.outputState(State.WAITING);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
