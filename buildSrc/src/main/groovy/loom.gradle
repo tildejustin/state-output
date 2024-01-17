@@ -45,8 +45,3 @@ java {
 jar {
     from "license"
 }
-
-tasks.withType(AbstractArchiveTask).configureEach {
-    preserveFileTimestamps = false
-    reproducibleFileOrder = true
-}
