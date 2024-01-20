@@ -11,9 +11,9 @@ public enum State {
     PREVIEW("previewing", true),
     UNKNOWN("");
 
+    private static int progress = 0;
+    private static boolean progressChanged;
     private final boolean usesProgress;
-    private int progress = 0;
-    private boolean progressChanged;
     private final String string;
 
     State(String string, boolean usesProgress) {
@@ -25,28 +25,33 @@ public enum State {
         this(string, false);
     }
 
+    @SuppressWarnings("unused")
+    public static int getProgress() {
+        return State.progress;
+    }
+
     public State withProgress(int progress) {
         assert this.usesProgress;
 
-        if (progress != this.progress) {
-            progressChanged = true;
+        if (progress != State.progress) {
+            State.progressChanged = true;
         }
-        this.progress = progress;
+        State.progress = progress;
         return this;
     }
 
-    public boolean hasProgressChanged() {
-        return progressChanged;
+    public static boolean hasProgressChanged() {
+        return State.progressChanged;
     }
 
     public void markLatest() {
-        this.progressChanged = false;
+        State.progressChanged = false;
     }
 
     @Override
     public String toString() {
         if (usesProgress) {
-            return String.format("%s,%d", this.string, this.progress);
+            return String.format("%s,%d", this.string, State.progress);
         } else {
             return this.string;
         }

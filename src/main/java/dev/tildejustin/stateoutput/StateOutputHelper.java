@@ -37,7 +37,7 @@ public final class StateOutputHelper {
         }
 
         // Check for changes
-        if (lastOutput == state && !state.hasProgressChanged()) {
+        if (lastOutput == state && !State.hasProgressChanged()) {
             return;
         }
         state.markLatest();
