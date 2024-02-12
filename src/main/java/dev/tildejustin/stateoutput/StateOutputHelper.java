@@ -53,9 +53,9 @@ public final class StateOutputHelper {
 
     private static void outputStateInternal(String string) {
         try {
+            stateFile.setLength(0); // clear existing file contents
             stateFile.seek(0); // move pointer back to start of file
             stateFile.write(string.getBytes(StandardCharsets.UTF_8));
-            stateFile.setLength(string.length()); // clear old file contents
             String message = "StateOutput State: " + string;
             if (StateOutput.legacyLog) {
                 StateOutput.log(message);
