@@ -1,9 +1,11 @@
 package dev.tildejustin.stateoutput.mixin;
 
 import dev.tildejustin.stateoutput.*;
+import dev.tildejustin.stateoutput.mixin.accessor.ClientPlayNetworkHandlerAccessor;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.gui.screen.*;
+import net.minecraft.client.network.*;
+import net.minecraft.network.ClientConnection;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.*;
@@ -19,6 +21,8 @@ public abstract class MinecraftClientMixin {
     @Nullable
     public Screen currentScreen;
 
+    @Shadow private ClientConnection integratedServerConnection;
+
     @Inject(method = "disconnect(Lnet/minecraft/client/gui/screen/Screen;)V", at = @At("TAIL"))
     private void outputWaitingState(CallbackInfo ci) {
         // We do this inject after this.player is set to null in the disconnect method.
@@ -33,7 +37,7 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void outputInWorldState(CallbackInfo ci) {
         // If there is no player, there is no world to be in
-        if (this.player == null) return;
+        if (this.player == null || !((ClientPlayNetworkHandlerAccessor) this.integratedServerConnection.getPacketListener()).getWorldLoadingState().isReady()) return;
         if (this.currentScreen == null) {
             StateOutputHelper.outputState(State.INGAME);
         } else if (this.currentScreen.shouldPause()) {
