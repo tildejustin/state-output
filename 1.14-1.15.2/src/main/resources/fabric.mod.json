@@ -5,10 +5,22 @@
   "name": "State Output",
   "description": "World Preview state file functionality but without World Preview",
   "authors": [
-    "DuncanRuns",
+    {
+      "name": "DuncanRuns",
+      "contact": {
+        "homepage": "https://github.com/DuncanRuns"
+      }
+    }
+  ],
+  "contributors": [
     "jojoe",
     "tildejustin"
   ],
+  "contact": {
+    "homepage": "https://github.com/tildejustin/state-output",
+    "sources": "https://github.com/tildejustin/state-output",
+    "issues": "https://github.com/tildejustin/state-output/issues"
+  },
   "license": "MIT",
   "environment": "*",
   "mixins": [
