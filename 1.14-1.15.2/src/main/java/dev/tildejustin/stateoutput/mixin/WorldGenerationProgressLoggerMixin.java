@@ -1,13 +1,11 @@
 package dev.tildejustin.stateoutput.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.wrapoperation.*;
 import dev.tildejustin.stateoutput.StateOutputHelper;
 import net.minecraft.server.WorldGenerationProgressLogger;
 import net.minecraft.util.math.MathHelper;
 import org.apache.logging.log4j.Logger;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(WorldGenerationProgressLogger.class)
