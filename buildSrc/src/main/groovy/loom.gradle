@@ -1,5 +1,6 @@
 plugins {
     id "fabric-loom"
+    id "maven-publish"
 }
 
 var target_version = project.path.replace(":", "")
@@ -44,4 +45,12 @@ java {
 
 jar {
     from "license"
+}
+
+
+publishing {
+    publications.create("mavenJava", MavenPublication) {
+        from components.java
+    }
+    repositories {}
 }
