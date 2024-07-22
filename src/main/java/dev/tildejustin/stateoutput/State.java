@@ -7,8 +7,8 @@ public enum State {
     OPEN_SCREEN("inworld,gamescreenopen"),
     TITLE("title"),
     WAITING("waiting"),
-    @SuppressWarnings("unused")
     PREVIEW("previewing", true),
+    WALL("wall"),
     UNKNOWN("");
 
     private static int progress = 0;
