@@ -20,7 +20,7 @@ public abstract class MinecraftClientMixin {
     public Screen currentScreen;
 
     @Dynamic
-    @Inject(method = {"disconnect(Lnet/minecraft/client/gui/screen/Screen;)V", "method_56134(Lnet/minecraft/client/gui/screen/Screen;)V", "method_18096(Lnet/minecraft/client/gui/screen/Screen;Z)V"}, at = @At("TAIL"), require = 1, allow = 1)
+    @Inject(method = {"disconnect(Lnet/minecraft/client/gui/screen/Screen;)V", "method_18096(Lnet/minecraft/client/gui/screen/Screen;Z)V"}, at = @At("TAIL"), require = 1, allow = 1)
     private void outputWaitingState(CallbackInfo ci) {
         // We do this inject after this.player is set to null in the disconnect method.
         // This is because the inworld state output depends on the player being non-null,
