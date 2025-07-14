@@ -5,13 +5,33 @@
   "name": "State Output Common",
   "description": "Common library for State Output",
   "authors": [
-    "DuncanRuns",
+    {
+      "name": "DuncanRuns",
+      "contact": {
+        "homepage": "https://github.com/DuncanRuns"
+      }
+    }
+  ],
+  "contributors": [
     "jojoe",
     "tildejustin"
   ],
+  "contact": {
+    "homepage": "https://github.com/tildejustin/state-output",
+    "sources": "https://github.com/tildejustin/state-output",
+    "issues": "https://github.com/tildejustin/state-output/issues"
+  },
   "license": "MIT",
   "environment": "*",
   "breaks": {
     "worldpreview": ">=3.0.0 <5.0.0"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [
+        "library"
+      ],
+      "parent": "state-output"
+    }
   }
 }

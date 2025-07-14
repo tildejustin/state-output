@@ -47,7 +47,6 @@ jar {
     from "license"
 }
 
-
 publishing {
     publications.create("mavenJava", MavenPublication) {
         from components.java

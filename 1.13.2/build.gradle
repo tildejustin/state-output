@@ -6,5 +6,5 @@ plugins {
 dependencies {
     minecraft "com.mojang:minecraft:$minecraft_version"
     mappings(legacy.yarn(minecraft_version, yarn_build))
-    include implementation(project(path: ":", configuration: "namedElements"))
+    include implementation(project(path: ":"))
 }

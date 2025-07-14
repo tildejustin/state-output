@@ -13,7 +13,7 @@ public abstract class WorldGenerationProgressLoggerMixin {
     @Shadow
     public abstract int getProgressPercentage();
 
-    @WrapOperation(method = "setChunkStatus", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;info(Ljava/lang/String;)V"))
+    @WrapOperation(method = "setChunkStatus", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;info(Ljava/lang/String;)V", remap = false))
     private void outputGenerationState(Logger logger, String s, Operation<Void> original) {
         // Using the getProgressPercentage to recalculate is slightly unoptimized but prevents needing to do locals capture, making it easier to port this mixin.#
         // WrapOperation is used for compatibility with SeedQueue muting background loggers

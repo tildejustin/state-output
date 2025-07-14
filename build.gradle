@@ -13,6 +13,6 @@ dependencies {
     mappings "dev.tildejustin:yarn:$yarn_mappings:v2"
     // implementation for single jar
     // subprojects.forEach {
-    //     include project(path: it.path, configuration: "namedElements")
+    //     include project(path: it.path)
     // }
 }
