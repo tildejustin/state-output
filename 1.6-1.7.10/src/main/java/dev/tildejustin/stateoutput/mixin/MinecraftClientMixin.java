@@ -27,7 +27,7 @@ public abstract class MinecraftClientMixin {
         StateOutput.legacyLog = ((MinecraftClientAccessor) MinecraftClient.getInstance()).getGameVersion().contains("1.6");
     }
 
-    @Inject(method = "connect(Lnet/minecraft/client/world/ClientWorld;Ljava/lang/String;)V", slice = @Slice(from = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/world/level/storage/LevelStorageAccess;clearAll()V")), at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;field_3805:Lnet/minecraft/entity/player/ControllablePlayerEntity;"))
+    @Inject(method = "connect(Lnet/minecraft/client/world/ClientWorld;Ljava/lang/String;)V", slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/storage/LevelStorageAccess;clearAll()V")), at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;field_3805:Lnet/minecraft/entity/player/ControllablePlayerEntity;"))
     private void outputWaitingState(CallbackInfo ci) {
         // We do this inject after this.player is set to null in the disconnect method.
         // This is because the inworld state output depends on the player being non-null,
@@ -41,7 +41,7 @@ public abstract class MinecraftClientMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void outputInWorldState(CallbackInfo ci) {
         // If there is no player, there is no world to be in
-        if (this.field_3805 == null) return;
+        if (this.field_3805 == null || this.currentScreen instanceof TitleScreen || (this.currentScreen instanceof DownloadingTerrainScreen && !StateOutputHelper.inWorld())) return;
         if (this.currentScreen == null && !this.paused) {
             StateOutputHelper.outputState(State.INGAME);
         } else if (this.paused || this.currentScreen instanceof GameMenuScreen) {

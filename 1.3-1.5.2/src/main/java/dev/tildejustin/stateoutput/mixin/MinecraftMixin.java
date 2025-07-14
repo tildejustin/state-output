@@ -38,7 +38,7 @@ public abstract class MinecraftMixin {
     @Inject(method = "tick", at = @At("TAIL"))
     private void outputInWorldState(CallbackInfo ci) {
         // If there is no player, there is no world to be in
-        if (this.playerEntity == null) return;
+        if (this.playerEntity == null || this.currentScreen instanceof TitleScreen || (this.currentScreen instanceof DownloadingTerrainScreen && !StateOutputHelper.inWorld())) return;
         if (this.currentScreen == null && !this.paused) {
             StateOutputHelper.outputState(State.INGAME);
         } else if (this.paused || this.currentScreen instanceof GameMenuScreen) {

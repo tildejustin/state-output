@@ -27,6 +27,11 @@ public final class StateOutputHelper {
         }
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
+    public static boolean inWorld() {
+        return lastOutput == State.INGAME || lastOutput == State.OPEN_SCREEN || lastOutput == State.PAUSED;
+    }
+
     public static void outputState(State state) {
         // Prevent "generating,0" from appearing on game start
         if (!titleHasEverLoaded) {
