@@ -12,7 +12,7 @@ public abstract class LevelLoadingScreenMixin {
     @Inject(method = "<init>", at = @At(value = "TAIL"))
     public void outputStartGen(CallbackInfo ci) {
         if (this.getClass() != LevelLoadingScreenMixin.class) {
-            // SeedQueue extends this class
+            // SeedQueue pre 1.5 extends this class
             return;
         }
         StateOutputHelper.outputState(State.GENERATING.withProgress(0));
