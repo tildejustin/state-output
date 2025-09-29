@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "state-output",
+  "version": "${version}",
+  "name": "State Output",
+  "description": "World Preview state file functionality but without World Preview",
+  "authors": [
+    {
+      "name": "DuncanRuns",
+      "contact": {
+        "homepage": "https://github.com/DuncanRuns"
+      }
+    }
+  ],
+  "contributors": [
+    "jojoe",
+    "tildejustin"
+  ],
+  "contact": {
+    "homepage": "https://github.com/tildejustin/state-output",
+    "sources": "https://github.com/tildejustin/state-output",
+    "issues": "https://github.com/tildejustin/state-output/issues"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "mixins": [
+    "stateoutput.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": ">=1.18.2"
+  }
+}
